@@ -18,7 +18,7 @@ The live grid renders cards from this shared data. When the user changes their n
 
 The browser preview uses regular HTML and CSS:
 
-- The template background is drawn with layered CSS backgrounds.
+- The template background uses real Unsplash photography with a readable color overlay.
 - The user's name is placed in a glass-style badge.
 - The uploaded profile image appears as a circular avatar.
 - If no photo is uploaded, initials are generated from the user's name.
@@ -26,7 +26,7 @@ The browser preview uses regular HTML and CSS:
 For sharing, the app creates a single merged image using the Canvas API:
 
 1. Create a 1080 × 1350 canvas for social-card output.
-2. Draw the selected template background and decorative shapes.
+2. Draw the selected Unsplash template photo and readability overlay.
 3. Draw the greeting headline and sender name.
 4. Draw the user avatar or generated initials.
 5. Convert the canvas to a PNG blob.

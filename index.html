@@ -7,7 +7,47 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="app-shell">
+    <section id="loginScreen" class="login-screen" aria-labelledby="loginTitle">
+      <div class="login-copy">
+        <div class="brand login-brand">
+          <span class="brand-mark">W</span>
+          <div>
+            <strong>Wishcraft</strong>
+            <span>Greeting Studio</span>
+          </div>
+        </div>
+
+        <p class="eyebrow">Custom greetings app</p>
+        <h1 id="loginTitle">Create wishes that look hand-picked.</h1>
+        <p class="login-subtitle">
+          Add your name once, upload a profile photo later, and preview it across free and premium
+          greeting cards made with real Unsplash photography.
+        </p>
+      </div>
+
+      <form id="loginForm" class="login-card">
+        <p class="eyebrow">Sign in</p>
+        <h2>Start your greeting studio</h2>
+
+        <label>
+          Your name
+          <input id="loginNameInput" type="text" value="Ananya Kapoor" maxlength="32" />
+        </label>
+
+        <label>
+          Email
+          <input id="emailInput" type="email" placeholder="you@example.com" />
+        </label>
+
+        <div class="login-methods" aria-label="Login methods">
+          <button type="button" data-auth="Google">Continue with Google</button>
+          <button type="button" data-auth="Email">Continue with Email</button>
+          <button type="button" data-auth="Guest">Try as Guest</button>
+        </div>
+      </form>
+    </section>
+
+    <div id="appShell" class="app-shell is-hidden">
       <aside class="sidebar" aria-label="Profile and filters">
         <div class="brand">
           <span class="brand-mark">W</span>
@@ -58,10 +98,7 @@
             <p class="eyebrow">Live preview collection</p>
             <h2>Choose a card, personalize it, and share in one tap.</h2>
           </div>
-          <button id="shareSelected" class="primary-action" type="button">
-            <span aria-hidden="true">↗</span>
-            Share selected
-          </button>
+          <button id="shareSelected" class="primary-action" type="button">Share selected</button>
         </header>
 
         <section id="templateGrid" class="template-grid" aria-live="polite"></section>
@@ -69,7 +106,7 @@
     </div>
 
     <dialog id="premiumDialog" class="premium-dialog">
-      <button class="icon-close" id="closePremium" type="button" aria-label="Close">×</button>
+      <button class="icon-close" id="closePremium" type="button" aria-label="Close">&times;</button>
       <p class="eyebrow">Premium template</p>
       <h2>Unlock polished festival and occasion cards.</h2>
       <p>
@@ -77,7 +114,7 @@
         drops for social sharing.
       </p>
       <div class="price-row">
-        <strong>₹149</strong>
+        <strong>Rs 149</strong>
         <span>/ month</span>
       </div>
       <button id="upgradeButton" class="primary-action full" type="button">Start premium preview</button>

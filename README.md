@@ -5,8 +5,10 @@ A polished static web app for creating personalized greeting cards and wishes. U
 ## Features
 
 - Guest, Google, and Email login entry points for the demo flow
+- Dedicated login page before the app workspace
 - Profile setup with name and profile picture
-- Categorized greeting templates for birthdays, anniversaries, festivals, daily wishes, and more
+- Categorized free and premium greeting templates for birthdays, anniversaries, festivals, daily wishes, and more
+- Real Unsplash photography used as card backgrounds
 - Live preview with automatic name and avatar overlay
 - Free and premium template states
 - Premium upsell popup for locked templates
@@ -28,6 +30,10 @@ npx serve .
 3. Browse categories and select a free template.
 4. Click a premium template to view the subscription popup.
 5. Click **Share selected** to generate a merged image and open the native share sheet, with download fallback on desktop browsers.
+
+## Image Credits
+
+Template photography is sourced from Unsplash search results for birthday cakes, Diwali lights, couple flowers, thank-you notes, morning coffee, New Year celebrations, and holiday lights. Photographer names are noted inside the template descriptions where available.
 
 ## Deploy On GitHub Pages
 

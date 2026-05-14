@@ -1,57 +1,157 @@
 const templates = [
   {
     id: "birthday-spark",
-    title: "Birthday Spark",
+    title: "Candle Glow",
     category: "Birthday",
     status: "Free",
-    layout: "layout-birthday",
+    image:
+      "https://images.unsplash.com/photo-1509805735646-2f72b3272a7d?auto=format&fit=crop&w=1200&q=80",
+    tint: "rgba(18, 19, 24, 0.5)",
     headline: "Happy Birthday",
-    note: "A bright little celebration"
+    note: "Real cake photo from Unsplash"
+  },
+  {
+    id: "birthday-blush",
+    title: "Blush Cake",
+    category: "Birthday",
+    status: "Free",
+    image:
+      "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=1200&q=80",
+    tint: "rgba(92, 32, 54, 0.48)",
+    headline: "Birthday Love",
+    note: "Soft bakery card"
+  },
+  {
+    id: "birthday-premium",
+    title: "Confetti Table",
+    category: "Birthday",
+    status: "Premium",
+    image:
+      "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&w=1200&q=80",
+    tint: "rgba(16, 24, 42, 0.5)",
+    headline: "Celebrate Big",
+    note: "Premium party layout"
   },
   {
     id: "anniversary-rose",
-    title: "Rose Hour",
+    title: "Golden Hour",
+    category: "Anniversary",
+    status: "Free",
+    image:
+      "https://images.unsplash.com/photo-1523438885200-e635ba2c371e?auto=format&fit=crop&w=1200&q=80",
+    tint: "rgba(55, 31, 40, 0.48)",
+    headline: "Forever Us",
+    note: "Warm couple photograph"
+  },
+  {
+    id: "anniversary-premium",
+    title: "Rose Promise",
     category: "Anniversary",
     status: "Premium",
-    layout: "layout-anniversary",
+    image:
+      "https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=1200&q=80",
+    tint: "rgba(80, 24, 38, 0.46)",
     headline: "Happy Anniversary",
-    note: "Warm, romantic, and polished"
+    note: "Premium romantic card"
+  },
+  {
+    id: "diwali-candles",
+    title: "Diyas",
+    category: "Festivals",
+    status: "Free",
+    image:
+      "https://images.unsplash.com/photo-1605292356183-a77d0a9c9d1d?auto=format&fit=crop&w=1200&q=80",
+    tint: "rgba(64, 28, 12, 0.48)",
+    headline: "Happy Diwali",
+    note: "Festival lights from Unsplash"
   },
   {
     id: "festival-glow",
-    title: "Festival Glow",
+    title: "Sparkler Night",
     category: "Festivals",
     status: "Premium",
-    layout: "layout-festival",
+    image:
+      "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=1200&q=80",
+    tint: "rgba(62, 25, 14, 0.5)",
     headline: "Shubh Utsav",
-    note: "Festive greeting with rich colors"
+    note: "Premium celebration card"
+  },
+  {
+    id: "holiday-pine",
+    title: "Pine Lights",
+    category: "Festivals",
+    status: "Premium",
+    image:
+      "https://images.unsplash.com/photo-1481366574263-f643ed72bccc?auto=format&fit=crop&w=1200&q=80",
+    tint: "rgba(6, 42, 38, 0.5)",
+    headline: "Season's Greetings",
+    note: "Holiday lights by Joanna Kosinska"
   },
   {
     id: "new-year",
     title: "Midnight Toast",
     category: "New Year",
     status: "Free",
-    layout: "layout-newyear",
+    image:
+      "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1200&q=80",
+    tint: "rgba(12, 20, 40, 0.58)",
     headline: "Happy New Year",
-    note: "Crisp, modern social card"
+    note: "Concert lights photo"
+  },
+  {
+    id: "new-year-premium",
+    title: "Firework Sky",
+    category: "New Year",
+    status: "Premium",
+    image:
+      "https://images.unsplash.com/photo-1467810563316-b5476525c0f9?auto=format&fit=crop&w=1200&q=80",
+    tint: "rgba(15, 18, 36, 0.52)",
+    headline: "New Beginnings",
+    note: "Premium fireworks card"
   },
   {
     id: "gratitude",
-    title: "Thank You Note",
+    title: "Wooden Thanks",
     category: "Thank You",
     status: "Free",
-    layout: "layout-thanks",
+    image:
+      "https://images.unsplash.com/photo-1608389168343-ba8aa0cb3a63?auto=format&fit=crop&w=1200&q=80",
+    tint: "rgba(42, 32, 24, 0.44)",
     headline: "Thank You",
-    note: "Soft and sincere"
+    note: "Warm sign photo"
+  },
+  {
+    id: "thank-you-premium",
+    title: "Paper Note",
+    category: "Thank You",
+    status: "Premium",
+    image:
+      "https://images.unsplash.com/photo-1512314889357-e157c22f938d?auto=format&fit=crop&w=1200&q=80",
+    tint: "rgba(36, 34, 28, 0.42)",
+    headline: "With Gratitude",
+    note: "Premium stationery look"
   },
   {
     id: "daily-wish",
-    title: "Morning Route",
+    title: "Cafe Morning",
+    category: "Daily",
+    status: "Free",
+    image:
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=80",
+    tint: "rgba(60, 42, 28, 0.48)",
+    headline: "Good Morning",
+    note: "Coffee photo from Unsplash"
+  },
+  {
+    id: "good-luck",
+    title: "Clean Desk",
     category: "Daily",
     status: "Premium",
-    layout: "layout-commute",
-    headline: "Good Morning",
-    note: "Everyday wish template"
+    image:
+      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80",
+    tint: "rgba(28, 38, 36, 0.48)",
+    headline: "Good Luck",
+    note: "Premium everyday greeting"
   }
 ];
 
@@ -60,9 +160,13 @@ const state = {
   selectedId: templates[0].id,
   name: "Ananya Kapoor",
   photo: "",
-  login: "Guest"
+  login: ""
 };
 
+const loginScreen = document.querySelector("#loginScreen");
+const appShell = document.querySelector("#appShell");
+const loginForm = document.querySelector("#loginForm");
+const loginNameInput = document.querySelector("#loginNameInput");
 const grid = document.querySelector("#templateGrid");
 const categoryTabs = document.querySelector("#categoryTabs");
 const nameInput = document.querySelector("#nameInput");
@@ -76,22 +180,15 @@ const closePremium = document.querySelector("#closePremium");
 const upgradeButton = document.querySelector("#upgradeButton");
 const toast = document.querySelector("#toast");
 
-const palette = {
-  "layout-birthday": ["#1e655f", "#123f4b", "#251b32", "#f8d572", "#f4826f"],
-  "layout-anniversary": ["#783f6d", "#c85b55", "#ecb75d", "#ffffff"],
-  "layout-festival": ["#7d2c1f", "#c4662c", "#f2bf55", "#ffffff"],
-  "layout-newyear": ["#17233d", "#0d7c78", "#d8a23a", "#ffffff"],
-  "layout-thanks": ["#335c67", "#fff0c7", "#e09f3e", "#202124"],
-  "layout-commute": ["#2b303a", "#5f7a61", "#c5a880", "#ffffff"]
-};
-
 function initials(name) {
-  return name
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase() || "")
-    .join("") || "ME";
+  return (
+    name
+      .trim()
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((part) => part[0]?.toUpperCase() || "")
+      .join("") || "ME"
+  );
 }
 
 function showToast(message) {
@@ -139,8 +236,8 @@ function renderTemplates() {
     .map(
       (template) => `
         <article class="template-card ${template.id === state.selectedId ? "selected" : ""}" data-id="${template.id}">
-          <span class="status-pill">${template.status}</span>
-          <div class="template-stage ${template.layout}">
+          <span class="status-pill ${template.status.toLowerCase()}">${template.status}</span>
+          <div class="template-stage" style="--photo: url('${template.image}'); --tint: ${template.tint}">
             ${profileBadge()}
             <div class="wish-copy">
               <p>From ${state.name}</p>
@@ -152,9 +249,7 @@ function renderTemplates() {
               <strong>${template.title}</strong>
               <span>${template.note}</span>
             </div>
-            <button type="button" data-action="${template.status === "Premium" ? "premium" : "select"}">
-              ${template.status === "Premium" ? "Unlock" : "Use"}
-            </button>
+            <button type="button">${template.status === "Premium" ? "Unlock" : "Use"}</button>
           </div>
         </article>
       `
@@ -162,31 +257,48 @@ function renderTemplates() {
     .join("");
 }
 
-function drawTemplate(ctx, template, profileImage) {
+function drawCoverImage(ctx, image, x, y, width, height) {
+  const scale = Math.max(width / image.width, height / image.height);
+  const scaledWidth = image.width * scale;
+  const scaledHeight = image.height * scale;
+  const offsetX = x + (width - scaledWidth) / 2;
+  const offsetY = y + (height - scaledHeight) / 2;
+  ctx.drawImage(image, offsetX, offsetY, scaledWidth, scaledHeight);
+}
+
+function roundRect(ctx, x, y, width, height, radius) {
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.arcTo(x + width, y, x + width, y + height, radius);
+  ctx.arcTo(x + width, y + height, x, y + height, radius);
+  ctx.arcTo(x, y + height, x, y, radius);
+  ctx.arcTo(x, y, x + width, y, radius);
+  ctx.closePath();
+}
+
+function drawTemplate(ctx, template, profileImage, backgroundImage) {
   const width = ctx.canvas.width;
   const height = ctx.canvas.height;
-  const colors = palette[template.layout];
 
-  const gradient = ctx.createLinearGradient(0, 0, width, height);
-  gradient.addColorStop(0, colors[0]);
-  gradient.addColorStop(0.58, colors[1]);
-  gradient.addColorStop(1, colors[2]);
-  ctx.fillStyle = gradient;
+  if (backgroundImage) {
+    drawCoverImage(ctx, backgroundImage, 0, 0, width, height);
+  } else {
+    const gradient = ctx.createLinearGradient(0, 0, width, height);
+    gradient.addColorStop(0, "#202124");
+    gradient.addColorStop(1, "#cf5c36");
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, width, height);
+  }
+
+  ctx.fillStyle = template.tint || "rgba(0,0,0,0.48)";
   ctx.fillRect(0, 0, width, height);
 
-  ctx.save();
-  ctx.globalAlpha = 0.24;
-  ctx.fillStyle = colors[3] || "#fff";
-  ctx.beginPath();
-  ctx.arc(width * 0.78, height * 0.18, width * 0.18, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.strokeStyle = "#fff";
-  ctx.lineWidth = 8;
-  ctx.strokeRect(width * 0.09, height * 0.1, width * 0.62, height * 0.38);
-  ctx.restore();
+  ctx.strokeStyle = "rgba(255,255,255,0.38)";
+  ctx.lineWidth = 5;
+  roundRect(ctx, 58, 58, width - 116, height - 116, 34);
+  ctx.stroke();
 
   ctx.fillStyle = "#ffffff";
-  if (template.layout === "layout-thanks") ctx.fillStyle = "#202124";
   ctx.font = "900 34px Segoe UI, Arial";
   ctx.fillText(`From ${state.name}`, 70, height - 215);
 
@@ -229,27 +341,18 @@ function drawTemplate(ctx, template, profileImage) {
   }
   ctx.restore();
 
-  ctx.fillStyle = template.layout === "layout-thanks" ? "#202124" : "#ffffff";
+  ctx.fillStyle = "#ffffff";
   ctx.font = "800 25px Segoe UI, Arial";
   ctx.textAlign = "left";
   ctx.textBaseline = "alphabetic";
   ctx.fillText(state.name, badgeX + 82, badgeY + 47);
 }
 
-function roundRect(ctx, x, y, width, height, radius) {
-  ctx.beginPath();
-  ctx.moveTo(x + radius, y);
-  ctx.arcTo(x + width, y, x + width, y + height, radius);
-  ctx.arcTo(x + width, y + height, x, y + height, radius);
-  ctx.arcTo(x, y + height, x, y, radius);
-  ctx.arcTo(x, y, x + width, y, radius);
-  ctx.closePath();
-}
-
-function loadImage(src) {
+function loadImage(src, useCors = false) {
   return new Promise((resolve) => {
     if (!src) return resolve(null);
     const image = new Image();
+    if (useCors) image.crossOrigin = "anonymous";
     image.onload = () => resolve(image);
     image.onerror = () => resolve(null);
     image.src = src;
@@ -267,8 +370,9 @@ async function exportSelected() {
   canvas.width = 1080;
   canvas.height = 1350;
   const ctx = canvas.getContext("2d");
+  const background = await loadImage(template.image, true);
   const image = await loadImage(state.photo);
-  drawTemplate(ctx, template, image);
+  drawTemplate(ctx, template, image, background);
 
   canvas.toBlob(async (blob) => {
     const file = new File([blob], `${template.id}.png`, { type: "image/png" });
@@ -290,8 +394,32 @@ async function exportSelected() {
   }, "image/png");
 }
 
+function enterApp(method) {
+  state.login = method;
+  state.name = loginNameInput.value.trim() || "Your Name";
+  nameInput.value = state.name;
+  updateProfileVisuals();
+  renderTemplates();
+  loginScreen.classList.add("is-hidden");
+  appShell.classList.remove("is-hidden");
+  document.querySelectorAll("[data-login]").forEach((item) => {
+    item.classList.toggle("active", item.dataset.login === method);
+  });
+  showToast(`${method} login ready. Pick a template to personalize.`);
+}
+
+document.querySelectorAll("[data-auth]").forEach((button) => {
+  button.addEventListener("click", () => enterApp(button.dataset.auth));
+});
+
+loginForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  enterApp("Email");
+});
+
 nameInput.addEventListener("input", (event) => {
   state.name = event.target.value.trim() || "Your Name";
+  loginNameInput.value = state.name;
   updateProfileVisuals();
   renderTemplates();
 });
@@ -350,7 +478,6 @@ upgradeButton.addEventListener("click", () => {
   showToast("Premium flow mocked for the internship demo.");
 });
 
-document.querySelector('[data-login="Guest"]').classList.add("active");
 updateProfileVisuals();
 renderCategories();
 renderTemplates();

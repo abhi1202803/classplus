@@ -26,8 +26,14 @@
       </div>
 
       <form id="loginForm" class="login-card">
-        <p class="eyebrow">Login</p>
+        <p class="eyebrow">Profile setup</p>
         <h2>Create your profile</h2>
+
+        <label class="avatar-picker login-avatar-picker" for="loginPhotoInput">
+          <img id="loginPhotoPreview" alt="Profile photo preview" />
+          <span id="loginAvatarInitials">ME</span>
+          <input id="loginPhotoInput" type="file" accept="image/*" />
+        </label>
 
         <label>
           Your name
@@ -42,7 +48,8 @@
         <p id="loginError" class="form-error" aria-live="polite"></p>
 
         <div class="login-methods" aria-label="Login methods">
-          <button type="submit">Login</button>
+          <button type="button" data-auth="Google">Continue with Google</button>
+          <button type="submit">Continue with Email</button>
           <button type="button" data-auth="Guest">Try as Guest</button>
         </div>
       </form>
@@ -130,8 +137,12 @@
         <p id="previewNote">Template note</p>
         <div class="preview-actions">
           <button id="previewUse" class="primary-action" type="button">Use this card</button>
-          <button id="previewShare" class="secondary-action" type="button">Share now</button>
+          <button id="previewShare" class="secondary-action" type="button">Share</button>
         </div>
+        <p class="share-note">
+          Share opens the phone's native share sheet for WhatsApp, Instagram, Email, and other apps
+          when supported. Desktop browsers download the merged image.
+        </p>
       </div>
     </dialog>
 

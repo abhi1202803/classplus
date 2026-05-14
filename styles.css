@@ -113,6 +113,12 @@ button {
   line-height: 1.05;
 }
 
+.login-avatar-picker {
+  width: 76px;
+  height: 76px;
+  margin-top: 2px;
+}
+
 .login-card label,
 .profile-form label:not(.avatar-picker) {
   display: grid;
@@ -581,6 +587,12 @@ main {
   margin: 0;
   color: var(--muted);
   line-height: 1.55;
+}
+
+.preview-copy .share-note {
+  max-width: 420px;
+  color: var(--muted);
+  font-size: 0.88rem;
 }
 
 .preview-actions {

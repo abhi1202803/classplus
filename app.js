@@ -170,6 +170,10 @@ const loginForm = document.querySelector("#loginForm");
 const loginNameInput = document.querySelector("#loginNameInput");
 const emailInput = document.querySelector("#emailInput");
 const loginError = document.querySelector("#loginError");
+const loginPhotoInput = document.querySelector("#loginPhotoInput");
+const loginPhotoPreview = document.querySelector("#loginPhotoPreview");
+const loginAvatarPicker = document.querySelector(".login-avatar-picker");
+const loginAvatarInitials = document.querySelector("#loginAvatarInitials");
 const grid = document.querySelector("#templateGrid");
 const categoryTabs = document.querySelector("#categoryTabs");
 const nameInput = document.querySelector("#nameInput");
@@ -213,14 +217,19 @@ function showToast(message) {
 
 function updateProfileVisuals() {
   avatarInitials.textContent = initials(state.name);
+  loginAvatarInitials.textContent = initials(loginNameInput.value || state.name);
   accountName.textContent = state.name;
   accountEmail.textContent = state.email;
   if (state.photo) {
     profilePreview.src = state.photo;
+    loginPhotoPreview.src = state.photo;
     avatarPicker.classList.add("has-image");
+    loginAvatarPicker.classList.add("has-image");
   } else {
     profilePreview.removeAttribute("src");
+    loginPhotoPreview.removeAttribute("src");
     avatarPicker.classList.remove("has-image");
+    loginAvatarPicker.classList.remove("has-image");
   }
 }
 
@@ -458,7 +467,7 @@ async function shareBlobOrFallback(blob, template) {
     link.download = file.name;
     link.click();
     URL.revokeObjectURL(link.href);
-    showToast("Native share is not available here, so the greeting was downloaded.");
+    showToast("Merged image downloaded. On mobile, Share opens WhatsApp, Instagram, Email, and more.");
     return;
   }
 
@@ -489,7 +498,7 @@ async function exportSelected() {
     return;
   }
 
-  showToast("Preparing your greeting...");
+  showToast("Merging background, name, and photo...");
   const blob = await createGreetingBlob(template);
   await shareBlobOrFallback(blob, template);
 }
@@ -507,12 +516,17 @@ function enterApp(method, options = {}) {
 }
 
 document.querySelectorAll("[data-auth]").forEach((button) => {
-  button.addEventListener("click", () =>
-    enterApp(button.dataset.auth, {
-      name: loginNameInput.value.trim() || "Guest User",
-      email: "guest@wishcraft.app"
-    })
-  );
+  button.addEventListener("click", () => {
+    const method = button.dataset.auth;
+    const name = loginNameInput.value.trim() || (method === "Google" ? "Google User" : "Guest User");
+    const email =
+      method === "Google"
+        ? emailInput.value.trim() || "google.user@wishcraft.app"
+        : "guest@wishcraft.app";
+
+    loginError.textContent = "";
+    enterApp(method, { name, email });
+  });
 });
 
 loginForm.addEventListener("submit", (event) => {
@@ -525,6 +539,22 @@ loginForm.addEventListener("submit", (event) => {
   }
   loginError.textContent = "";
   enterApp("Email", { name, email });
+});
+
+loginNameInput.addEventListener("input", () => {
+  loginAvatarInitials.textContent = initials(loginNameInput.value || "Me");
+});
+
+loginPhotoInput.addEventListener("change", (event) => {
+  const [file] = event.target.files;
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    state.photo = reader.result;
+    updateProfileVisuals();
+    renderTemplates();
+  };
+  reader.readAsDataURL(file);
 });
 
 nameInput.addEventListener("input", (event) => {

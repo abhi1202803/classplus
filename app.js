@@ -161,7 +161,11 @@ const state = {
   name: "Your Name",
   email: "guest@wishcraft.app",
   photo: "",
-  login: "Guest"
+  login: "Guest",
+  shareBlob: null,
+  shareFile: null,
+  shareTemplate: null,
+  shareObjectUrl: ""
 };
 
 const loginScreen = document.querySelector("#loginScreen");
@@ -195,6 +199,12 @@ const previewTitle = document.querySelector("#previewTitle");
 const previewNote = document.querySelector("#previewNote");
 const previewUse = document.querySelector("#previewUse");
 const previewShare = document.querySelector("#previewShare");
+const shareDialog = document.querySelector("#shareDialog");
+const closeShare = document.querySelector("#closeShare");
+const nativeShareButton = document.querySelector("#nativeShareButton");
+const whatsappShareButton = document.querySelector("#whatsappShareButton");
+const emailShareButton = document.querySelector("#emailShareButton");
+const downloadShareButton = document.querySelector("#downloadShareButton");
 const toast = document.querySelector("#toast");
 
 function initials(name) {
@@ -444,51 +454,84 @@ async function createGreetingBlob(template) {
   return blob;
 }
 
-async function shareBlobOrFallback(blob, template) {
-  const shareText = `${template.headline} from ${state.name}`;
+function shareText(template) {
+  return `${template.headline} from ${state.name}`;
+}
 
-  if (blob) {
-    const file = new File([blob], `${template.id}.png`, { type: "image/png" });
-    if (navigator.canShare?.({ files: [file] })) {
-      try {
-        await navigator.share({ title: template.title, text: shareText, files: [file] });
-        showToast("Greeting shared successfully.");
-        return;
-      } catch (error) {
-        if (error.name === "AbortError") {
-          showToast("Sharing cancelled.");
-          return;
-        }
-      }
-    }
+function clearShareObjectUrl() {
+  if (state.shareObjectUrl) {
+    URL.revokeObjectURL(state.shareObjectUrl);
+    state.shareObjectUrl = "";
+  }
+}
 
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = file.name;
-    link.click();
-    URL.revokeObjectURL(link.href);
-    showToast("Merged image downloaded. On mobile, Share opens WhatsApp, Instagram, Email, and more.");
+function openShareDialog(blob, template) {
+  clearShareObjectUrl();
+  state.shareBlob = blob;
+  state.shareTemplate = template;
+  state.shareFile = blob ? new File([blob], `${template.id}.png`, { type: "image/png" }) : null;
+  state.shareObjectUrl = blob ? URL.createObjectURL(blob) : "";
+  nativeShareButton.disabled = !navigator.share && !navigator.canShare;
+  downloadShareButton.disabled = !blob;
+  shareDialog.showModal();
+}
+
+async function runNativeShare() {
+  const template = state.shareTemplate || templateById(state.selectedId);
+  const text = shareText(template);
+
+  if (!navigator.share) {
+    showToast("Native Share is not supported in this browser. Try mobile Chrome or Safari.");
     return;
   }
 
-  if (navigator.share) {
-    try {
+  try {
+    if (state.shareFile && navigator.canShare?.({ files: [state.shareFile] })) {
       await navigator.share({
         title: template.title,
-        text: shareText,
+        text,
+        files: [state.shareFile]
+      });
+    } else {
+      await navigator.share({
+        title: template.title,
+        text,
         url: window.location.href
       });
-      showToast("Greeting link shared.");
-      return;
-    } catch (error) {
-      if (error.name === "AbortError") {
-        showToast("Sharing cancelled.");
-        return;
-      }
     }
+    shareDialog.close();
+    showToast("Share sheet opened.");
+  } catch (error) {
+    showToast(error.name === "AbortError" ? "Sharing cancelled." : "Unable to open native share.");
+  }
+}
+
+function openWhatsAppShare() {
+  const template = state.shareTemplate || templateById(state.selectedId);
+  const text = encodeURIComponent(`${shareText(template)}\n${window.location.href}`);
+  window.open(`https://wa.me/?text=${text}`, "_blank", "noopener");
+  showToast("WhatsApp opened. Use Native Share on mobile to send the actual image file.");
+}
+
+function openEmailShare() {
+  const template = state.shareTemplate || templateById(state.selectedId);
+  const subject = encodeURIComponent(template.title);
+  const body = encodeURIComponent(`${shareText(template)}\n\n${window.location.href}`);
+  window.location.href = `mailto:?subject=${subject}&body=${body}`;
+  showToast("Email composer opened. Use Download if you want to attach the image manually.");
+}
+
+function downloadMergedImage() {
+  if (!state.shareBlob || !state.shareObjectUrl || !state.shareTemplate) {
+    showToast("Prepare a greeting before downloading.");
+    return;
   }
 
-  showToast("This browser blocked image sharing. Try Chrome or Safari on mobile.");
+  const link = document.createElement("a");
+  link.href = state.shareObjectUrl;
+  link.download = `${state.shareTemplate.id}.png`;
+  link.click();
+  showToast("Merged greeting downloaded.");
 }
 
 async function exportSelected() {
@@ -500,7 +543,8 @@ async function exportSelected() {
 
   showToast("Merging background, name, and photo...");
   const blob = await createGreetingBlob(template);
-  await shareBlobOrFallback(blob, template);
+  openShareDialog(blob, template);
+  showToast(blob ? "Merged image ready. Choose where to share." : "Share options ready.");
 }
 
 function enterApp(method, options = {}) {
@@ -607,6 +651,11 @@ previewUse.addEventListener("click", () => {
   showToast(`${template.title} selected.`);
 });
 previewShare.addEventListener("click", exportSelected);
+closeShare.addEventListener("click", () => shareDialog.close());
+nativeShareButton.addEventListener("click", runNativeShare);
+whatsappShareButton.addEventListener("click", openWhatsAppShare);
+emailShareButton.addEventListener("click", openEmailShare);
+downloadShareButton.addEventListener("click", downloadMergedImage);
 upgradeButton.addEventListener("click", () => {
   premiumDialog.close();
   showToast("Premium flow mocked for the internship demo.");

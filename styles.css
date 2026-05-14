@@ -538,6 +538,46 @@ main {
   box-shadow: var(--shadow);
 }
 
+.share-dialog {
+  width: min(520px, calc(100vw - 32px));
+  border: 0;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: var(--shadow);
+}
+
+.share-dialog::backdrop {
+  background: rgba(20, 20, 20, 0.52);
+}
+
+.share-dialog h2 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1;
+}
+
+.share-dialog p:not(.eyebrow) {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.share-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 18px 0 8px;
+}
+
+.share-options .primary-action,
+.share-options .secondary-action {
+  width: 100%;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 .preview-dialog {
   width: min(940px, calc(100vw - 32px));
   border: 0;
@@ -729,6 +769,10 @@ main {
 
   .preview-stage {
     min-height: 420px;
+  }
+
+  .share-options {
+    grid-template-columns: 1fr;
   }
 }
 

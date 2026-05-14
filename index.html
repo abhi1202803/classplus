@@ -140,10 +140,29 @@
           <button id="previewShare" class="secondary-action" type="button">Share</button>
         </div>
         <p class="share-note">
-          Share opens the phone's native share sheet for WhatsApp, Instagram, Email, and other apps
-          when supported. Desktop browsers download the merged image.
+          Share prepares one merged image and then lets you choose Native Share, WhatsApp, Email,
+          or Download.
         </p>
       </div>
+    </dialog>
+
+    <dialog id="shareDialog" class="share-dialog">
+      <button class="icon-close" id="closeShare" type="button" aria-label="Close">&times;</button>
+      <p class="eyebrow">Share greeting</p>
+      <h2 id="shareTitle">Your merged image is ready</h2>
+      <p id="shareDescription">
+        Use Native Share on mobile to send the image to WhatsApp, Instagram, Email, and other apps.
+      </p>
+      <div class="share-options" aria-label="Share options">
+        <button id="nativeShareButton" class="primary-action" type="button">Native Share</button>
+        <button id="whatsappShareButton" class="secondary-action" type="button">WhatsApp</button>
+        <button id="emailShareButton" class="secondary-action" type="button">Email</button>
+        <button id="downloadShareButton" class="secondary-action" type="button">Download</button>
+      </div>
+      <p class="share-note">
+        Note: Instagram and some desktop browsers only accept image files through the system share
+        sheet, so use Native Share on a phone for the closest real app behavior.
+      </p>
     </dialog>
 
     <div id="toast" class="toast" role="status" aria-live="polite"></div>

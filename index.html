@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wishcraft Studio</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Profile and filters">
+        <div class="brand">
+          <span class="brand-mark">W</span>
+          <div>
+            <strong>Wishcraft</strong>
+            <span>Greeting Studio</span>
+          </div>
+        </div>
+
+        <section class="panel profile-panel" aria-labelledby="profileTitle">
+          <div class="section-heading">
+            <p>Profile</p>
+            <h1 id="profileTitle">Make every wish feel personal.</h1>
+          </div>
+
+          <form id="profileForm" class="profile-form">
+            <label class="avatar-picker" for="photoInput">
+              <img id="profilePreview" alt="Profile preview" />
+              <span id="avatarInitials">AK</span>
+              <input id="photoInput" type="file" accept="image/*" />
+            </label>
+
+            <label>
+              Name
+              <input id="nameInput" type="text" value="Ananya Kapoor" maxlength="32" />
+            </label>
+
+            <div class="login-row" aria-label="Login options">
+              <button type="button" data-login="Google">Google</button>
+              <button type="button" data-login="Email">Email</button>
+              <button type="button" data-login="Guest">Guest</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="panel compact-panel" aria-labelledby="categoryTitle">
+          <div class="section-heading small">
+            <p>Templates</p>
+            <h2 id="categoryTitle">Categories</h2>
+          </div>
+          <div id="categoryTabs" class="category-tabs" role="tablist" aria-label="Template categories"></div>
+        </section>
+      </aside>
+
+      <main>
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Live preview collection</p>
+            <h2>Choose a card, personalize it, and share in one tap.</h2>
+          </div>
+          <button id="shareSelected" class="primary-action" type="button">
+            <span aria-hidden="true">↗</span>
+            Share selected
+          </button>
+        </header>
+
+        <section id="templateGrid" class="template-grid" aria-live="polite"></section>
+      </main>
+    </div>
+
+    <dialog id="premiumDialog" class="premium-dialog">
+      <button class="icon-close" id="closePremium" type="button" aria-label="Close">×</button>
+      <p class="eyebrow">Premium template</p>
+      <h2>Unlock polished festival and occasion cards.</h2>
+      <p>
+        Premium gives access to all locked greetings, higher-resolution exports, and new seasonal
+        drops for social sharing.
+      </p>
+      <div class="price-row">
+        <strong>₹149</strong>
+        <span>/ month</span>
+      </div>
+      <button id="upgradeButton" class="primary-action full" type="button">Start premium preview</button>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

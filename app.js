@@ -158,15 +158,18 @@ const templates = [
 const state = {
   category: "All",
   selectedId: templates[0].id,
-  name: "Ananya Kapoor",
+  name: "Your Name",
+  email: "guest@wishcraft.app",
   photo: "",
-  login: ""
+  login: "Guest"
 };
 
 const loginScreen = document.querySelector("#loginScreen");
 const appShell = document.querySelector("#appShell");
 const loginForm = document.querySelector("#loginForm");
 const loginNameInput = document.querySelector("#loginNameInput");
+const emailInput = document.querySelector("#emailInput");
+const loginError = document.querySelector("#loginError");
 const grid = document.querySelector("#templateGrid");
 const categoryTabs = document.querySelector("#categoryTabs");
 const nameInput = document.querySelector("#nameInput");
@@ -178,6 +181,16 @@ const shareSelected = document.querySelector("#shareSelected");
 const premiumDialog = document.querySelector("#premiumDialog");
 const closePremium = document.querySelector("#closePremium");
 const upgradeButton = document.querySelector("#upgradeButton");
+const accountName = document.querySelector("#accountName");
+const accountEmail = document.querySelector("#accountEmail");
+const previewDialog = document.querySelector("#previewDialog");
+const closePreview = document.querySelector("#closePreview");
+const previewArtwork = document.querySelector("#previewArtwork");
+const previewStatus = document.querySelector("#previewStatus");
+const previewTitle = document.querySelector("#previewTitle");
+const previewNote = document.querySelector("#previewNote");
+const previewUse = document.querySelector("#previewUse");
+const previewShare = document.querySelector("#previewShare");
 const toast = document.querySelector("#toast");
 
 function initials(name) {
@@ -200,6 +213,8 @@ function showToast(message) {
 
 function updateProfileVisuals() {
   avatarInitials.textContent = initials(state.name);
+  accountName.textContent = state.name;
+  accountEmail.textContent = state.email;
   if (state.photo) {
     profilePreview.src = state.photo;
     avatarPicker.classList.add("has-image");
@@ -207,6 +222,10 @@ function updateProfileVisuals() {
     profilePreview.removeAttribute("src");
     avatarPicker.classList.remove("has-image");
   }
+}
+
+function templateById(id) {
+  return templates.find((item) => item.id === id) || templates[0];
 }
 
 function renderCategories() {
@@ -255,6 +274,34 @@ function renderTemplates() {
       `
     )
     .join("");
+}
+
+function cardArtwork(template, className = "template-stage") {
+  return `
+    <div class="${className}" style="--photo: url('${template.image}'); --tint: ${template.tint}">
+      ${profileBadge()}
+      <div class="wish-copy">
+        <p>From ${state.name}</p>
+        <h3>${template.headline}</h3>
+      </div>
+    </div>
+  `;
+}
+
+function renderPreview(template) {
+  previewArtwork.innerHTML = cardArtwork(template, "template-stage preview-stage");
+  previewStatus.textContent = `${template.status} template`;
+  previewTitle.textContent = template.title;
+  previewNote.textContent = template.note;
+  previewUse.textContent = template.status === "Premium" ? "Unlock premium" : "Use this card";
+  previewShare.classList.toggle("is-hidden", template.status === "Premium");
+}
+
+function openPreview(template) {
+  state.selectedId = template.id;
+  renderTemplates();
+  renderPreview(template);
+  previewDialog.showModal();
 }
 
 function drawCoverImage(ctx, image, x, y, width, height) {
@@ -359,30 +406,51 @@ function loadImage(src, useCors = false) {
   });
 }
 
-async function exportSelected() {
-  const template = templates.find((item) => item.id === state.selectedId) || templates[0];
-  if (template.status === "Premium") {
-    premiumDialog.showModal();
-    return;
-  }
+function canvasToBlob(canvas) {
+  return new Promise((resolve) => {
+    try {
+      canvas.toBlob((blob) => resolve(blob), "image/png");
+    } catch {
+      resolve(null);
+    }
+  });
+}
 
+async function createGreetingBlob(template) {
   const canvas = document.createElement("canvas");
   canvas.width = 1080;
   canvas.height = 1350;
   const ctx = canvas.getContext("2d");
+  const profileImage = await loadImage(state.photo);
   const background = await loadImage(template.image, true);
-  const image = await loadImage(state.photo);
-  drawTemplate(ctx, template, image, background);
 
-  canvas.toBlob(async (blob) => {
+  drawTemplate(ctx, template, profileImage, background);
+  let blob = await canvasToBlob(canvas);
+
+  if (!blob && background) {
+    drawTemplate(ctx, template, profileImage, null);
+    blob = await canvasToBlob(canvas);
+  }
+
+  return blob;
+}
+
+async function shareBlobOrFallback(blob, template) {
+  const shareText = `${template.headline} from ${state.name}`;
+
+  if (blob) {
     const file = new File([blob], `${template.id}.png`, { type: "image/png" });
     if (navigator.canShare?.({ files: [file] })) {
-      await navigator.share({
-        title: template.title,
-        text: `${template.headline} from ${state.name}`,
-        files: [file]
-      });
-      return;
+      try {
+        await navigator.share({ title: template.title, text: shareText, files: [file] });
+        showToast("Greeting shared successfully.");
+        return;
+      } catch (error) {
+        if (error.name === "AbortError") {
+          showToast("Sharing cancelled.");
+          return;
+        }
+      }
     }
 
     const link = document.createElement("a");
@@ -390,31 +458,73 @@ async function exportSelected() {
     link.download = file.name;
     link.click();
     URL.revokeObjectURL(link.href);
-    showToast("Share sheet unavailable here, so the greeting was downloaded.");
-  }, "image/png");
+    showToast("Native share is not available here, so the greeting was downloaded.");
+    return;
+  }
+
+  if (navigator.share) {
+    try {
+      await navigator.share({
+        title: template.title,
+        text: shareText,
+        url: window.location.href
+      });
+      showToast("Greeting link shared.");
+      return;
+    } catch (error) {
+      if (error.name === "AbortError") {
+        showToast("Sharing cancelled.");
+        return;
+      }
+    }
+  }
+
+  showToast("This browser blocked image sharing. Try Chrome or Safari on mobile.");
 }
 
-function enterApp(method) {
+async function exportSelected() {
+  const template = templateById(state.selectedId);
+  if (template.status === "Premium") {
+    premiumDialog.showModal();
+    return;
+  }
+
+  showToast("Preparing your greeting...");
+  const blob = await createGreetingBlob(template);
+  await shareBlobOrFallback(blob, template);
+}
+
+function enterApp(method, options = {}) {
   state.login = method;
-  state.name = loginNameInput.value.trim() || "Your Name";
+  state.name = options.name || loginNameInput.value.trim() || "Guest User";
+  state.email = options.email || emailInput.value.trim() || "guest@wishcraft.app";
   nameInput.value = state.name;
   updateProfileVisuals();
   renderTemplates();
   loginScreen.classList.add("is-hidden");
   appShell.classList.remove("is-hidden");
-  document.querySelectorAll("[data-login]").forEach((item) => {
-    item.classList.toggle("active", item.dataset.login === method);
-  });
-  showToast(`${method} login ready. Pick a template to personalize.`);
+  showToast(`Welcome, ${state.name}. Pick a template to personalize.`);
 }
 
 document.querySelectorAll("[data-auth]").forEach((button) => {
-  button.addEventListener("click", () => enterApp(button.dataset.auth));
+  button.addEventListener("click", () =>
+    enterApp(button.dataset.auth, {
+      name: loginNameInput.value.trim() || "Guest User",
+      email: "guest@wishcraft.app"
+    })
+  );
 });
 
 loginForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  enterApp("Email");
+  const name = loginNameInput.value.trim();
+  const email = emailInput.value.trim();
+  if (!name || !email || !emailInput.checkValidity()) {
+    loginError.textContent = "Please enter a valid name and email to continue.";
+    return;
+  }
+  loginError.textContent = "";
+  enterApp("Email", { name, email });
 });
 
 nameInput.addEventListener("input", (event) => {
@@ -436,15 +546,6 @@ photoInput.addEventListener("change", (event) => {
   reader.readAsDataURL(file);
 });
 
-document.querySelectorAll("[data-login]").forEach((button) => {
-  button.addEventListener("click", () => {
-    state.login = button.dataset.login;
-    document.querySelectorAll("[data-login]").forEach((item) => item.classList.remove("active"));
-    button.classList.add("active");
-    showToast(`${state.login} profile is ready for preview.`);
-  });
-});
-
 categoryTabs.addEventListener("click", (event) => {
   const button = event.target.closest("button[data-category]");
   if (!button) return;
@@ -456,23 +557,26 @@ categoryTabs.addEventListener("click", (event) => {
 grid.addEventListener("click", (event) => {
   const card = event.target.closest(".template-card");
   if (!card) return;
-  const template = templates.find((item) => item.id === card.dataset.id);
+  const template = templateById(card.dataset.id);
   if (!template) return;
-
-  if (template.status === "Premium") {
-    state.selectedId = template.id;
-    renderTemplates();
-    premiumDialog.showModal();
-    return;
-  }
-
-  state.selectedId = template.id;
-  renderTemplates();
-  showToast(`${template.title} selected.`);
+  openPreview(template);
 });
 
 shareSelected.addEventListener("click", exportSelected);
 closePremium.addEventListener("click", () => premiumDialog.close());
+closePreview.addEventListener("click", () => previewDialog.close());
+previewUse.addEventListener("click", () => {
+  const template = templateById(state.selectedId);
+  if (template.status === "Premium") {
+    previewDialog.close();
+    premiumDialog.showModal();
+    return;
+  }
+
+  previewDialog.close();
+  showToast(`${template.title} selected.`);
+});
+previewShare.addEventListener("click", exportSelected);
 upgradeButton.addEventListener("click", () => {
   premiumDialog.close();
   showToast("Premium flow mocked for the internship demo.");

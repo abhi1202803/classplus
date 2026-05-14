@@ -158,6 +158,14 @@ button {
   background: var(--ink);
 }
 
+.form-error {
+  min-height: 18px;
+  margin: -6px 0 0;
+  color: var(--accent-dark);
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
 .app-shell {
   display: grid;
   grid-template-columns: minmax(280px, 360px) 1fr;
@@ -307,6 +315,28 @@ button {
   color: #fff;
   border-color: var(--ink);
   background: var(--ink);
+}
+
+.account-summary {
+  display: grid;
+  gap: 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 13px 14px;
+  background: #fff;
+}
+
+.account-summary span,
+.account-summary small {
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.account-summary strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 main {
@@ -502,6 +532,74 @@ main {
   box-shadow: var(--shadow);
 }
 
+.preview-dialog {
+  width: min(940px, calc(100vw - 32px));
+  border: 0;
+  border-radius: 8px;
+  padding: 0;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+
+.preview-dialog::backdrop {
+  background: rgba(20, 20, 20, 0.58);
+}
+
+.preview-dialog[open] {
+  display: grid;
+  grid-template-columns: minmax(280px, 420px) 1fr;
+}
+
+.preview-artwork {
+  background: var(--ink);
+}
+
+.preview-stage {
+  min-height: 560px;
+  aspect-ratio: auto;
+}
+
+.preview-stage .wish-copy h3 {
+  font-size: clamp(2.8rem, 6vw, 4.8rem);
+}
+
+.preview-copy {
+  align-self: center;
+  display: grid;
+  gap: 14px;
+  padding: 34px;
+}
+
+.preview-copy h2 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1;
+}
+
+.preview-copy p:not(.eyebrow) {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.preview-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.secondary-action {
+  min-height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 18px;
+  color: var(--ink);
+  background: #fff;
+  font-weight: 900;
+}
+
 .premium-dialog::backdrop {
   background: rgba(20, 20, 20, 0.48);
 }
@@ -611,6 +709,14 @@ main {
 
   .topbar h2 {
     font-size: 2.3rem;
+  }
+
+  .preview-dialog[open] {
+    grid-template-columns: 1fr;
+  }
+
+  .preview-stage {
+    min-height: 420px;
   }
 }
 

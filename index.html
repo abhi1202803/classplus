@@ -26,22 +26,23 @@
       </div>
 
       <form id="loginForm" class="login-card">
-        <p class="eyebrow">Sign in</p>
-        <h2>Start your greeting studio</h2>
+        <p class="eyebrow">Login</p>
+        <h2>Create your profile</h2>
 
         <label>
           Your name
-          <input id="loginNameInput" type="text" value="Ananya Kapoor" maxlength="32" />
+          <input id="loginNameInput" type="text" placeholder="Enter your name" maxlength="32" required />
         </label>
 
         <label>
           Email
-          <input id="emailInput" type="email" placeholder="you@example.com" />
+          <input id="emailInput" type="email" placeholder="you@example.com" required />
         </label>
 
+        <p id="loginError" class="form-error" aria-live="polite"></p>
+
         <div class="login-methods" aria-label="Login methods">
-          <button type="button" data-auth="Google">Continue with Google</button>
-          <button type="button" data-auth="Email">Continue with Email</button>
+          <button type="submit">Login</button>
           <button type="button" data-auth="Guest">Try as Guest</button>
         </div>
       </form>
@@ -72,13 +73,13 @@
 
             <label>
               Name
-              <input id="nameInput" type="text" value="Ananya Kapoor" maxlength="32" />
+              <input id="nameInput" type="text" value="Your Name" maxlength="32" />
             </label>
 
-            <div class="login-row" aria-label="Login options">
-              <button type="button" data-login="Google">Google</button>
-              <button type="button" data-login="Email">Email</button>
-              <button type="button" data-login="Guest">Guest</button>
+            <div class="account-summary" aria-label="Signed in account">
+              <span>Signed in</span>
+              <strong id="accountName">Your Name</strong>
+              <small id="accountEmail">guest@wishcraft.app</small>
             </div>
           </form>
         </section>
@@ -118,6 +119,20 @@
         <span>/ month</span>
       </div>
       <button id="upgradeButton" class="primary-action full" type="button">Start premium preview</button>
+    </dialog>
+
+    <dialog id="previewDialog" class="preview-dialog">
+      <button class="icon-close" id="closePreview" type="button" aria-label="Close">&times;</button>
+      <div id="previewArtwork" class="preview-artwork"></div>
+      <div class="preview-copy">
+        <p id="previewStatus" class="eyebrow">Free template</p>
+        <h2 id="previewTitle">Template title</h2>
+        <p id="previewNote">Template note</p>
+        <div class="preview-actions">
+          <button id="previewUse" class="primary-action" type="button">Use this card</button>
+          <button id="previewShare" class="secondary-action" type="button">Share now</button>
+        </div>
+      </div>
     </dialog>
 
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
